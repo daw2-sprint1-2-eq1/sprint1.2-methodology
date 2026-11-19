@@ -1,0 +1,37 @@
+schema: spec-driven
+
+# Project context shared by every OpenSpec artifact and workflow.
+# Keep it short: only constraints an agent cannot infer by reading the code.
+context: |
+  Target application: grade management app for DAW2 (team sprint 1.2).
+  Stack: server-rendered PHP 8 (MVC, no framework), MariaDB through PDO, Bootstrap 5,
+  vanilla JavaScript, Docker Compose. Optional AI features run as a separate FastAPI service.
+  Architecture is MPA, never SPA: PHP owns routing and renders full pages.
+  User-facing text is Catalan. Code, comments, specs and docs are English.
+  Roles: admin, teacher, student. Authorization is always checked on the server.
+  Every change maps to exactly one GitHub issue and one branch: issue/<number>-<short-description>.
+
+rules:
+  proposal:
+    - "Link the GitHub issue in the first line, for example: Issue #14"
+    - State what is out of scope
+    - Keep it under one page
+  specs:
+    - Every requirement has at least one WHEN/THEN scenario a teacher could test by hand
+    - Describe permissions per role explicitly
+  design:
+    - Respect the MVC split (Controllers, Models, Domain, Views) described in AGENTS.md
+    - Say how an existing database receives any schema change
+  tasks:
+    - Each task fits in one class session (max ~2 hours)
+    - Each task names its verification (composer test, a manual check, or CI)
+    - "Include a final task to open the PR with Closes #<issue>"
+
+operations:
+  apply:
+    guidance:
+      - Work only on the issue branch, never on main
+      - Run composer test after each task group and report results honestly
+  archive:
+    guidance:
+      - Archive only after the PR is merged and CI is green

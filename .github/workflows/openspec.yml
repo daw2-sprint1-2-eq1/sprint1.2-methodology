@@ -1,0 +1,16 @@
+name: openspec
+on: [push, pull_request]
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    env:
+      OPENSPEC_TELEMETRY: "0"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install OpenSpec CLI
+        run: npm install -g @fission-ai/openspec
+      - name: Validate specs and changes
+        run: openspec validate --all --strict --no-interactive
